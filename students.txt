@@ -1,6 +1,8 @@
-12334 - bassel jack | Course: game | Year: 1
- -   | Course:  | Year: 
-987890 - jade Mountana | Course: Cooking | Year: 1
- -   | Course:  | Year: 
-556227 - Hazem Hareth | Course: game d | Year: 2
- -   | Course:  | Year: 
+7659,jjou,hgy,ddi,1
+7659,jjou,hgy,ddi,1
+76699,houh,kkju,hhg,1
+123456,Hazem,Hareth,IT,1
+2637782,Jade,Mountana,Cooking,2
+283892,jack,kji,hgh,1
+283783,hamzah,hareth,car,1
+36386,Hassan,hareth,Lower,1

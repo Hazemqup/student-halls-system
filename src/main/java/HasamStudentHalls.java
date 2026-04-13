@@ -28,6 +28,7 @@ public class HasamStudentHalls {
      */
     public static void main(String[] args) {
         StudentHall hallList = new StudentHall(20);
+        hallList.loadFromFile("students.txt");
 
         JFrame frame = new JFrame("Student Halls System");
         frame.setSize(1000, 750);
@@ -40,6 +41,8 @@ public class HasamStudentHalls {
         displayStudents.setEditable(false);
 
         frame.add(new JScrollPane(displayStudents), BorderLayout.CENTER);
+
+        displayStudents.setText(hallList.displayResidents());
 
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.green);

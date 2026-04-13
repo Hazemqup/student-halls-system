@@ -1,4 +1,6 @@
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,15 +107,49 @@ public class StudentHall {
 
     public void saveToFile(String filename) {
         try {
-            FileWriter writer = new FileWriter(filename, true);
-
+            FileWriter writer = new FileWriter(filename);
             for (Student s : residents) {
-                writer.write(s.toString() + "\n");
+                writer.write(
+                        s.getStudentId() + ","
+                        + s.getFirstName() + ","
+                        + s.getLastName() + ","
+                        + s.getCourse() + ","
+                        + s.getYear() + "\n"
+                );
             }
 
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void loadFromFile(String filename) {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+
+                String[] data = line.split(",");
+
+                if (data.length == 5) {
+                    Student student = new Student(
+                            data[0], // id
+                            data[3], // course
+                            data[4], // year
+                            data[1], // first name
+                            data[2] // last name
+                    );
+
+                    residents.add(student);
+                }
+            }
+
+            reader.close();
+
+        } catch (Exception e) {
+            System.out.println("No file found yet.");
         }
     }
 }
