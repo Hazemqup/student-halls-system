@@ -104,6 +104,23 @@ public class StudentHall {
 
         return output;
     }
+    public String searchStudent(String name) {
+    String result = "";
+
+    for (Student s : residents) {
+        if (s.getFirstName().equalsIgnoreCase(name) ||
+            s.getLastName().equalsIgnoreCase(name)) {
+
+            result += s.toString() + "\n";
+        }
+    }
+
+    if (result.isEmpty()) {
+        return "No student found.";
+    }
+
+    return result;
+}
 
     public void saveToFile(String filename) {
         try {

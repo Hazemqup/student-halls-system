@@ -27,6 +27,7 @@ public class HasamStudentHalls {
      * @param args - not used
      */
     public static void main(String[] args) {
+
         StudentHall hallList = new StudentHall(20);
         hallList.loadFromFile("students.txt");
 
@@ -41,9 +42,9 @@ public class HasamStudentHalls {
         displayStudents.setEditable(false);
 
         frame.add(new JScrollPane(displayStudents), BorderLayout.CENTER);
-
         displayStudents.setText(hallList.displayResidents());
 
+        // ================= TOP PANEL =================
         JPanel topPanel = new JPanel();
         topPanel.setBackground(Color.green);
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
@@ -53,6 +54,7 @@ public class HasamStudentHalls {
         topPanel.add(titleLabel);
         topPanel.add(Box.createVerticalStrut(10));
 
+        // Student Details
         JPanel studentPanel = new JPanel();
         studentPanel.setBackground(Color.green);
         studentPanel.setBorder(BorderFactory.createTitledBorder("Student Details"));
@@ -70,6 +72,7 @@ public class HasamStudentHalls {
         topPanel.add(studentPanel);
         topPanel.add(Box.createVerticalStrut(10));
 
+        // Course Details
         JPanel coursePanel = new JPanel();
         coursePanel.setBackground(Color.green);
         coursePanel.setBorder(BorderFactory.createTitledBorder("Course Details"));
@@ -91,9 +94,9 @@ public class HasamStudentHalls {
 
         topPanel.add(coursePanel);
 
-        JScrollPane scrollPane = new JScrollPane(topPanel);
-        frame.add(scrollPane, BorderLayout.NORTH);
+        frame.add(new JScrollPane(topPanel), BorderLayout.NORTH);
 
+        // ================= LEFT PANEL =================
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.black);
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
@@ -101,7 +104,10 @@ public class HasamStudentHalls {
         JButton submitBtn = new JButton("Enter student details");
         JButton saveBtn = new JButton("Save residents");
 
-        //  SUBMIT BUTTON (with validation)
+        JTextField searchField = new JTextField(15);
+        JButton searchBtn = new JButton("Search");
+
+        // SUBMIT BUTTON
         submitBtn.addActionListener(e -> {
 
             if (studentIdField.getText().trim().isEmpty()
@@ -139,10 +145,38 @@ public class HasamStudentHalls {
             JOptionPane.showMessageDialog(null, "Students saved successfully!");
         });
 
+        // SEARCH BUTTON
+        searchBtn.addActionListener(e -> {
+            String name = searchField.getText().trim();
+
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Enter a name to search!");
+                return;
+            }
+
+            String result = hallList.searchStudent(name);
+            displayStudents.setText(result);
+        });
+
+        // Add components to left panel
         leftPanel.add(Box.createVerticalStrut(10));
         leftPanel.add(submitBtn);
+
         leftPanel.add(Box.createVerticalStrut(10));
         leftPanel.add(saveBtn);
+
+        // SEARCH SECTION
+        JLabel searchLabel = new JLabel("Search by name:");
+        searchLabel.setForeground(Color.WHITE);
+
+        leftPanel.add(Box.createVerticalStrut(15));
+        leftPanel.add(searchLabel);
+
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(searchField);
+
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(searchBtn);
 
         frame.add(leftPanel, BorderLayout.WEST);
 
