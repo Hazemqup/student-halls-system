@@ -1,3 +1,4 @@
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -21,7 +22,8 @@ import javax.swing.JTextField;
 public class HasamStudentHalls {
 
     /**
-     *The GUI for the application
+     * The GUI for the application
+     *
      * @param args - not used
      */
     public static void main(String[] args) {
@@ -109,10 +111,39 @@ public class HasamStudentHalls {
             hallList.addStudent(student);
             JOptionPane.showMessageDialog(null, "There are " + hallList.getTotal() + " students in the hall");
             displayStudents.setText(hallList.displayResidents());
+
+            // 🔽 CLEAR INPUT FIELDS (put it HERE)
+            givenNameField.setText("");
+            surnameField.setText("");
+            studentIdField.setText("");
+            courseField.setText("");
+            yearField.setText("");
+        });
+        submitBtn.addActionListener(e -> {
+            Student student = new Student(
+                    studentIdField.getText().trim(),
+                    courseField.getText().trim(),
+                    yearField.getText().trim(),
+                    givenNameField.getText().trim(),
+                    surnameField.getText().trim()
+            );
+
+            JOptionPane.showMessageDialog(null, student.getCourse() + " is created!");
+            hallList.addStudent(student);
+            JOptionPane.showMessageDialog(null, "There are " + hallList.getTotal() + " students in the hall");
+            displayStudents.setText(hallList.displayResidents());
+
+            // CLEAR INPUT FIELDS AFTER ADDING STUDENT
+            givenNameField.setText("");
+            surnameField.setText("");
+            studentIdField.setText("");
+            courseField.setText("");
+            yearField.setText("");
         });
 
         saveBtn.addActionListener(e -> {
-            JOptionPane.showMessageDialog(null, "Save button is not connected yet.");
+            hallList.saveToFile("students.txt");
+            JOptionPane.showMessageDialog(null, "Students saved successfully!");
         });
 
         leftPanel.add(Box.createVerticalStrut(10));

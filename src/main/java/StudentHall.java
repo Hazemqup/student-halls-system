@@ -1,9 +1,12 @@
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  *
  * @author Hazem
- * 
+ *
  */
 public class StudentHall {
 
@@ -15,7 +18,8 @@ public class StudentHall {
     public final int MAX;// max people allowed in the hall
 
     /**
-     * The constructor - creates a list of a residents 
+     * The constructor - creates a list of a residents
+     *
      * @param maxIn - max number of student hall
      */
     public StudentHall(int maxIn) {
@@ -25,8 +29,10 @@ public class StudentHall {
 
     /**
      * adding a student to the hall
+     *
      * @param theStudent - the student to be added
-     * @return - boolean representing whether the student was successfully entered or not.
+     * @return - boolean representing whether the student was successfully
+     * entered or not.
      */
     public boolean addStudent(Student theStudent) {
         if (!isFull()) {
@@ -38,7 +44,8 @@ public class StudentHall {
     }
 
     /**
-     *checks wether is it empty or not 
+     * checks wether is it empty or not
+     *
      * @return
      */
     public boolean isEmpty() {
@@ -46,7 +53,8 @@ public class StudentHall {
     }
 
     /**
-     *checks if its full or not
+     * checks if its full or not
+     *
      * @return
      */
     public boolean isFull() {
@@ -54,7 +62,8 @@ public class StudentHall {
     }
 
     /**
-     *it gets the total number of the student in the hall
+     * it gets the total number of the student in the hall
+     *
      * @return
      */
     public int getTotal() {
@@ -63,6 +72,7 @@ public class StudentHall {
 
     /**
      * finds a particular student based on position - could be room number
+     *
      * @param positionIn - the position of student in the list
      * @return
      */
@@ -76,6 +86,7 @@ public class StudentHall {
 
     /**
      * Displays a complete list of students in the hall
+     *
      * @return - a concatenated list of students in the hall.
      */
     public String displayResidents() {
@@ -90,5 +101,19 @@ public class StudentHall {
         }
 
         return output;
+    }
+
+    public void saveToFile(String filename) {
+        try {
+            FileWriter writer = new FileWriter(filename);
+
+            for (Student s : residents) {
+                writer.write(s.toString() + "\n");
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
