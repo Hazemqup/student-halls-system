@@ -167,17 +167,31 @@ public class HasamStudentHalls {
                 return;
             }
 
-            boolean removed = hallList.deleteStudent(id);
+            //  CONFIRMATION POPUP
+            int confirm = JOptionPane.showConfirmDialog(
+                    null,
+                    "Are you sure you want to delete this student?",
+                    "Confirm Delete",
+                    JOptionPane.YES_NO_OPTION
+            );
 
-            if (removed) {
-                displayStudents.setText(hallList.displayResidents());
-                JOptionPane.showMessageDialog(null, "Student deleted!");
+            if (confirm == JOptionPane.YES_OPTION) {
+
+                boolean removed = hallList.deleteStudent(id);
+
+                if (removed) {
+                    displayStudents.setText(hallList.displayResidents());
+                    hallList.saveToFile("students.txt");
+                    JOptionPane.showMessageDialog(null, "Student deleted!");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Student not found!");
+                }
+
             } else {
-                JOptionPane.showMessageDialog(null, "Student not found!");
+                JOptionPane.showMessageDialog(null, "Delete cancelled.");
             }
         });
 
-        // ================= ADD COMPONENTS =================
         submitBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         saveBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 

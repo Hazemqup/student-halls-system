@@ -1,7 +1,3 @@
-7659,jjou,hgy,ddi,1
-7659,jjou,hgy,ddi,1
-76699,houh,kkju,hhg,1
 123456,Hazem,Hareth,IT,1
 2637782,Jade,Mountana,Cooking,2
 283892,jack,kji,hgh,1
-283783,hamzah,hareth,car,1
