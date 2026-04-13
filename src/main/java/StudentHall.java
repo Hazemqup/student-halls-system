@@ -105,7 +105,7 @@ public class StudentHall {
 
     public void saveToFile(String filename) {
         try {
-            FileWriter writer = new FileWriter(filename);
+            FileWriter writer = new FileWriter(filename, true);
 
             for (Student s : residents) {
                 writer.write(s.toString() + "\n");

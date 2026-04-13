@@ -98,7 +98,19 @@ public class HasamStudentHalls {
         JButton submitBtn = new JButton("Enter student details");
         JButton saveBtn = new JButton("Save residents");
 
+        //  SUBMIT BUTTON (with validation)
         submitBtn.addActionListener(e -> {
+
+            if (studentIdField.getText().trim().isEmpty()
+                    || courseField.getText().trim().isEmpty()
+                    || yearField.getText().trim().isEmpty()
+                    || givenNameField.getText().trim().isEmpty()
+                    || surnameField.getText().trim().isEmpty()) {
+
+                JOptionPane.showMessageDialog(null, "Please fill in all fields!");
+                return;
+            }
+
             Student student = new Student(
                     studentIdField.getText().trim(),
                     courseField.getText().trim(),
@@ -107,33 +119,10 @@ public class HasamStudentHalls {
                     surnameField.getText().trim()
             );
 
-            JOptionPane.showMessageDialog(null, student.getCourse() + " is created!");
             hallList.addStudent(student);
-            JOptionPane.showMessageDialog(null, "There are " + hallList.getTotal() + " students in the hall");
             displayStudents.setText(hallList.displayResidents());
 
-            // 🔽 CLEAR INPUT FIELDS (put it HERE)
-            givenNameField.setText("");
-            surnameField.setText("");
-            studentIdField.setText("");
-            courseField.setText("");
-            yearField.setText("");
-        });
-        submitBtn.addActionListener(e -> {
-            Student student = new Student(
-                    studentIdField.getText().trim(),
-                    courseField.getText().trim(),
-                    yearField.getText().trim(),
-                    givenNameField.getText().trim(),
-                    surnameField.getText().trim()
-            );
-
-            JOptionPane.showMessageDialog(null, student.getCourse() + " is created!");
-            hallList.addStudent(student);
-            JOptionPane.showMessageDialog(null, "There are " + hallList.getTotal() + " students in the hall");
-            displayStudents.setText(hallList.displayResidents());
-
-            // CLEAR INPUT FIELDS AFTER ADDING STUDENT
+            // clear fields
             givenNameField.setText("");
             surnameField.setText("");
             studentIdField.setText("");
@@ -141,6 +130,7 @@ public class HasamStudentHalls {
             yearField.setText("");
         });
 
+        // SAVE BUTTON
         saveBtn.addActionListener(e -> {
             hallList.saveToFile("students.txt");
             JOptionPane.showMessageDialog(null, "Students saved successfully!");
