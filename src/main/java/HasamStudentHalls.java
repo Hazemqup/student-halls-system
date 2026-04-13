@@ -36,27 +36,30 @@ public class HasamStudentHalls {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
+        // ================= DISPLAY AREA =================
         JTextArea displayStudents = new JTextArea();
         displayStudents.setLineWrap(true);
         displayStudents.setWrapStyleWord(true);
         displayStudents.setEditable(false);
+        displayStudents.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 14));
+        displayStudents.setBorder(BorderFactory.createTitledBorder("Student List"));
 
         frame.add(new JScrollPane(displayStudents), BorderLayout.CENTER);
         displayStudents.setText(hallList.displayResidents());
 
         // ================= TOP PANEL =================
         JPanel topPanel = new JPanel();
-        topPanel.setBackground(Color.green);
+        topPanel.setBackground(new Color(144, 238, 144)); // light green
         topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Book a Student for a Residence");
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         topPanel.add(titleLabel);
-        topPanel.add(Box.createVerticalStrut(10));
+        topPanel.add(Box.createVerticalStrut(15));
 
         // Student Details
         JPanel studentPanel = new JPanel();
-        studentPanel.setBackground(Color.green);
+        studentPanel.setBackground(new Color(144, 238, 144));
         studentPanel.setBorder(BorderFactory.createTitledBorder("Student Details"));
 
         JLabel givenNameLabel = new JLabel("First Name:");
@@ -74,7 +77,7 @@ public class HasamStudentHalls {
 
         // Course Details
         JPanel coursePanel = new JPanel();
-        coursePanel.setBackground(Color.green);
+        coursePanel.setBackground(new Color(144, 238, 144));
         coursePanel.setBorder(BorderFactory.createTitledBorder("Course Details"));
 
         JLabel studentIdLabel = new JLabel("Student ID:");
@@ -93,26 +96,25 @@ public class HasamStudentHalls {
         coursePanel.add(yearField);
 
         topPanel.add(coursePanel);
-
         frame.add(new JScrollPane(topPanel), BorderLayout.NORTH);
 
         // ================= LEFT PANEL =================
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(Color.black);
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.setPreferredSize(new java.awt.Dimension(200, 0));
 
         JButton submitBtn = new JButton("Enter student details");
         JButton saveBtn = new JButton("Save residents");
 
-        JTextField deleteField = new JTextField(15);
-        JButton deleteBtn = new JButton("Delete");
-
         JTextField searchField = new JTextField(15);
         JButton searchBtn = new JButton("Search");
 
-        // SUBMIT BUTTON
-        submitBtn.addActionListener(e -> {
+        JTextField deleteField = new JTextField(15);
+        JButton deleteBtn = new JButton("Delete");
 
+        // ================= BUTTON LOGIC =================
+        submitBtn.addActionListener(e -> {
             if (studentIdField.getText().trim().isEmpty()
                     || courseField.getText().trim().isEmpty()
                     || yearField.getText().trim().isEmpty()
@@ -134,7 +136,6 @@ public class HasamStudentHalls {
             hallList.addStudent(student);
             displayStudents.setText(hallList.displayResidents());
 
-            // clear fields
             givenNameField.setText("");
             surnameField.setText("");
             studentIdField.setText("");
@@ -142,11 +143,27 @@ public class HasamStudentHalls {
             yearField.setText("");
         });
 
+        saveBtn.addActionListener(e -> {
+            hallList.saveToFile("students.txt");
+            JOptionPane.showMessageDialog(null, "Students saved successfully!");
+        });
+
+        searchBtn.addActionListener(e -> {
+            String name = searchField.getText().trim();
+
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Enter a name to search!");
+                return;
+            }
+
+            displayStudents.setText(hallList.searchStudent(name));
+        });
+
         deleteBtn.addActionListener(e -> {
             String id = deleteField.getText().trim();
 
             if (id.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Enter Student ID to delete!");
+                JOptionPane.showMessageDialog(null, "Enter Student ID!");
                 return;
             }
 
@@ -160,60 +177,50 @@ public class HasamStudentHalls {
             }
         });
 
-        // SAVE BUTTON
-        saveBtn.addActionListener(e -> {
-            hallList.saveToFile("students.txt");
-            JOptionPane.showMessageDialog(null, "Students saved successfully!");
-        });
+        // ================= ADD COMPONENTS =================
+        submitBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        saveBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // SEARCH BUTTON
-        searchBtn.addActionListener(e -> {
-            String name = searchField.getText().trim();
-
-            if (name.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "Enter a name to search!");
-                return;
-            }
-
-            String result = hallList.searchStudent(name);
-            displayStudents.setText(result);
-        });
-
-        // Add components to left panel
-        leftPanel.add(Box.createVerticalStrut(10));
+        leftPanel.add(Box.createVerticalStrut(15));
         leftPanel.add(submitBtn);
 
         leftPanel.add(Box.createVerticalStrut(10));
         leftPanel.add(saveBtn);
 
-        // SEARCH SECTION
+        // Search Section
         JLabel searchLabel = new JLabel("Search by name:");
         searchLabel.setForeground(Color.WHITE);
+        searchLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        leftPanel.add(Box.createVerticalStrut(15));
+        searchField.setMaximumSize(searchField.getPreferredSize());
+        searchField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        leftPanel.add(Box.createVerticalStrut(20));
         leftPanel.add(searchLabel);
-
         leftPanel.add(Box.createVerticalStrut(5));
         leftPanel.add(searchField);
-
         leftPanel.add(Box.createVerticalStrut(5));
         leftPanel.add(searchBtn);
+
+        // Delete Section
+        JLabel deleteLabel = new JLabel("Delete by ID:");
+        deleteLabel.setForeground(Color.WHITE);
+        deleteLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        deleteField.setMaximumSize(deleteField.getPreferredSize());
+        deleteField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        deleteBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        leftPanel.add(Box.createVerticalStrut(20));
+        leftPanel.add(deleteLabel);
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(deleteField);
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(deleteBtn);
 
         frame.add(leftPanel, BorderLayout.WEST);
 
         frame.setVisible(true);
-
-        // DELETE SECTION
-        JLabel deleteLabel = new JLabel("Delete by ID:");
-        deleteLabel.setForeground(Color.WHITE);
-
-        leftPanel.add(Box.createVerticalStrut(15));
-        leftPanel.add(deleteLabel);
-
-        leftPanel.add(Box.createVerticalStrut(5));
-        leftPanel.add(deleteField);
-
-        leftPanel.add(Box.createVerticalStrut(5));
-        leftPanel.add(deleteBtn);
     }
 }
