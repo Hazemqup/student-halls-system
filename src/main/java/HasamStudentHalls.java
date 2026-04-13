@@ -104,6 +104,9 @@ public class HasamStudentHalls {
         JButton submitBtn = new JButton("Enter student details");
         JButton saveBtn = new JButton("Save residents");
 
+        JTextField deleteField = new JTextField(15);
+        JButton deleteBtn = new JButton("Delete");
+
         JTextField searchField = new JTextField(15);
         JButton searchBtn = new JButton("Search");
 
@@ -137,6 +140,24 @@ public class HasamStudentHalls {
             studentIdField.setText("");
             courseField.setText("");
             yearField.setText("");
+        });
+
+        deleteBtn.addActionListener(e -> {
+            String id = deleteField.getText().trim();
+
+            if (id.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Enter Student ID to delete!");
+                return;
+            }
+
+            boolean removed = hallList.deleteStudent(id);
+
+            if (removed) {
+                displayStudents.setText(hallList.displayResidents());
+                JOptionPane.showMessageDialog(null, "Student deleted!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Student not found!");
+            }
         });
 
         // SAVE BUTTON
@@ -181,5 +202,18 @@ public class HasamStudentHalls {
         frame.add(leftPanel, BorderLayout.WEST);
 
         frame.setVisible(true);
+
+        // DELETE SECTION
+        JLabel deleteLabel = new JLabel("Delete by ID:");
+        deleteLabel.setForeground(Color.WHITE);
+
+        leftPanel.add(Box.createVerticalStrut(15));
+        leftPanel.add(deleteLabel);
+
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(deleteField);
+
+        leftPanel.add(Box.createVerticalStrut(5));
+        leftPanel.add(deleteBtn);
     }
 }

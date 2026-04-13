@@ -5,4 +5,3 @@
 2637782,Jade,Mountana,Cooking,2
 283892,jack,kji,hgh,1
 283783,hamzah,hareth,car,1
-36386,Hassan,hareth,Lower,1

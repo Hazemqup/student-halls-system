@@ -104,23 +104,34 @@ public class StudentHall {
 
         return output;
     }
-    public String searchStudent(String name) {
-    String result = "";
 
-    for (Student s : residents) {
-        if (s.getFirstName().equalsIgnoreCase(name) ||
-            s.getLastName().equalsIgnoreCase(name)) {
-
-            result += s.toString() + "\n";
+    public boolean deleteStudent(String studentId) {
+        for (int i = 0; i < residents.size(); i++) {
+            if (residents.get(i).getStudentId().equals(studentId)) {
+                residents.remove(i);
+                return true;
+            }
         }
+        return false;
     }
 
-    if (result.isEmpty()) {
-        return "No student found.";
-    }
+    public String searchStudent(String name) {
+        String result = "";
 
-    return result;
-}
+        for (Student s : residents) {
+            if (s.getFirstName().equalsIgnoreCase(name)
+                    || s.getLastName().equalsIgnoreCase(name)) {
+
+                result += s.toString() + "\n";
+            }
+        }
+
+        if (result.isEmpty()) {
+            return "No student found.";
+        }
+
+        return result;
+    }
 
     public void saveToFile(String filename) {
         try {
